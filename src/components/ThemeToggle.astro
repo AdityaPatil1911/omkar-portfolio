@@ -1,0 +1,39 @@
+---
+import Icon from './Icon.astro';
+---
+
+<theme-toggle>
+	
+</theme-toggle>
+
+<style>
+	button {
+		display: flex;
+		border: 0;
+		border-radius: 999rem;
+		padding: 0.5rem;
+		background-color: var(--gray-999);
+		box-shadow: inset 0 0 0 1px var(--accent-overlay);
+		cursor: not-allowed;
+	}
+
+	.icon {
+		z-index: 1;
+		position: relative;
+		display: flex;
+		width: 2rem;
+		height: 2rem;
+		font-size: 1rem;
+		color: var(--accent-overlay);
+	}
+</style>
+
+<script>
+	class ThemeToggle extends HTMLElement {
+		constructor() {
+			super();
+			document.documentElement.classList.add('theme-dark');
+		}
+	}
+	customElements.define('theme-toggle', ThemeToggle);
+</script>
