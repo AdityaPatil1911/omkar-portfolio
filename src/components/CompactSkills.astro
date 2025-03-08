@@ -6,11 +6,10 @@ interface Skill {
 }
 
 const skills: Skill[] = [
-  { name: 'Storytelling', percentage: 90, icon: 'video-editing' },
-  { name: 'Sound Design', percentage: 60, icon: 'davinci-resolve' },
-  { name: 'Animation', percentage: 65, icon: 'shopify' },
-  { name: 'Motion Graphics', percentage: 80, icon: 'video-editing' },
-  
+  { name: 'Storytelling', percentage: 90, icon: '/mnt/data/video-editing.png' },
+  { name: 'Sound Design', percentage: 60, icon: '/mnt/data/sound.png' },
+  { name: 'Animation', percentage: 65, icon: '/mnt/data/animation.png' },
+  { name: 'Motion Graphics', percentage: 80, icon: '/mnt/data/motion.png' },
 ];
 
 import Icon from './Icon.astro';
@@ -22,14 +21,10 @@ import Icon from './Icon.astro';
     {skills.map((skill) => (
       <div class="skill-card">
         <div class="skill-icon">
-          <Icon icon={skill.icon} size="1.5em" />
+          <img src={skill.icon} alt={skill.name} width="40" height="40" />
         </div>
         <div class="skill-info">
           <span class="skill-name">{skill.name}</span>
-
-            
-            </div>
-          </div>
         </div>
       </div>
     ))}
@@ -39,9 +34,7 @@ import Icon from './Icon.astro';
 <style>
   .skills-container {
     background: var(--gray-999_40);
-    
     padding: 1.5rem;
-    
     max-width: 1000px;
     margin: 0 auto;
   }
@@ -56,6 +49,13 @@ import Icon from './Icon.astro';
   .skills-grid {
     display: grid;
     gap: 1rem;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 768px) {
+    .skills-grid {
+      grid-template-columns: 1fr;
+    }
   }
 
   .skill-card {
@@ -76,11 +76,17 @@ import Icon from './Icon.astro';
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 2.5rem;
-    height: 2.5rem;
+    width: 3.5rem;
+    height: 3.5rem;
     background: var(--gradient-accent);
     border-radius: 0.5rem;
     color: var(--gray-999);
+  }
+
+  .skill-icon img {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 0.5rem;
   }
 
   .skill-info {
@@ -89,68 +95,8 @@ import Icon from './Icon.astro';
 
   .skill-name {
     display: block;
-    font-size: var(--text-sm);
+    font-size: var(--text-lg);
     color: var(--gray-200);
     margin-bottom: 0.25rem;
   }
-
-  .progress-bar {
-    height: 0.5rem;
-    background: var(--gray-800);
-    border-radius: 999px;
-    overflow: hidden;
-  }
-
-  .progress {
-    height: 100%;
-    background: var(--gradient-accent);
-    border-radius: 999px;
-    position: relative;
-    animation: fillProgress 1s ease-out forwards;
-    transform-origin: left;
-  }
-
-  .percentage {
-    position: absolute;
-    right: 0.25rem;
-    top: -1.25rem;
-    font-size: var(--text-xs);
-    color: var(--gray-200);
-  }
-
-  @keyframes fillProgress {
-    from {
-      transform: scaleX(0);
-    }
-    to {
-      transform: scaleX(1);
-    }
-  }
-
-  @media (min-width: 50em) {
-    .skills-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
 </style>
-
-<script>
-  // Add intersection observer to trigger animations when skills become visible
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.querySelectorAll('.progress').forEach(progress => {
-          progress.style.animation = 'none';
-          progress.offsetHeight; // Trigger reflow
-          progress.style.animation = 'fillProgress 1s ease-out forwards';
-        });
-      }
-    });
-  }, {
-    threshold: 0.1
-  });
-
-  document.querySelectorAll('.skills-container').forEach(container => {
-    observer.observe(container);
-  });
-</script>
